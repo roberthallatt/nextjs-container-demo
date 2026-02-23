@@ -14,8 +14,8 @@
   // Install dependencies after the container is created
   "postCreateCommand": "npm install",
 
-  // Start the dev server when the container starts
-  "postStartCommand": "npm run dev",
+  // Start the dev server and print access URLs to the terminal
+  "postStartCommand": "printf '\\n  \033[1mDev server starting...\033[0m\\n  \033[36mOrbStack domain:\033[0m http://caddy.test-nextjs.orb.local\\n  \033[36mDirect:\033[0m         http://localhost:3000\\n\\n' && npm run dev",
 
   // Port 3000 is forwarded by VS Code (not bound in docker-compose) to avoid
   // conflict with OrbStack. Port 8080 is bound by the Caddy container directly
