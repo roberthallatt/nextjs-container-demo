@@ -1,0 +1,46 @@
+{
+  "name": "Next.js Dev Container",
+
+  // Use the official Microsoft Node.js devcontainer image (Node 22 LTS)
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+
+  // Forward the Next.js dev server port to your Mac browser
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js App",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // Install dependencies after the container is created
+  "postCreateCommand": "npm install",
+
+  // Start the dev server when the container starts
+  "postStartCommand": "npm run dev",
+
+  // Environment variables injected into the container.
+  // WATCHPACK_POLLING is required on macOS — Docker bind mounts don't surface
+  // inotify events, so Next.js/webpack must poll for file changes instead.
+  "remoteEnv": {
+    "WATCHPACK_POLLING": "true"
+  },
+
+  // VS Code extensions installed automatically inside the container
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.tabSize": 2
+      }
+    }
+  }
+}
