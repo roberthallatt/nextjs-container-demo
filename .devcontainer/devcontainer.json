@@ -16,11 +16,9 @@
 
   "postStartCommand": "printf '\\n  Next.js dev server starting...\\n  Local: http://localhost:3000\\n\\n' && npm run dev",
 
-  // macOS Docker bind mounts don't emit inotify events — polling is required.
-  // ANTHROPIC_API_KEY is read from your Mac's shell environment (~/.zshrc).
+  // macOS Docker bind mounts don't emit inotify events — polling is required
   "remoteEnv": {
-    "WATCHPACK_POLLING": "true",
-    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+    "WATCHPACK_POLLING": "true"
   },
 
   // Persist Claude Code conversations and memory across container rebuilds.
