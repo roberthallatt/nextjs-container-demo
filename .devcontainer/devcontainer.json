@@ -1,32 +1,19 @@
 {
   "name": "Next.js Dev Container",
 
-  // Switch from a single image to Docker Compose so we can run
-  // a Caddy reverse proxy alongside the Next.js app.
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "runServices": ["app", "caddy"],
-  "workspaceFolder": "/workspace",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
 
-  // OrbStack automatically assigns http://caddy.test-nextjs.orb.local to the
-  // Caddy container — no /etc/hosts edit or initializeCommand needed.
-
-  // Install dependencies after the container is created
-  "postCreateCommand": "npm install",
-
-  // Start the dev server and print access URLs to the terminal
-  "postStartCommand": "printf '\\n  \033[1mDev server starting...\033[0m\\n  \033[36mOrbStack domain:\033[0m http://caddy.test-nextjs.orb.local\\n  \033[36mDirect:\033[0m         http://localhost:3000\\n\\n' && npm run dev",
-
-  // Port 3000 is forwarded by VS Code (not bound in docker-compose) to avoid
-  // conflict with OrbStack. Port 8080 is bound by the Caddy container directly
-  // so VS Code doesn't need to forward it — just open the browser on it.
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
-      "label": "Next.js (direct)",
-      "onAutoForward": "silent"
+      "label": "Next.js App",
+      "onAutoForward": "openBrowser"
     }
   },
+
+  "postCreateCommand": "npm install",
+
+  "postStartCommand": "printf '\\n  Next.js dev server starting...\\n  Local: http://localhost:3000\\n\\n' && npm run dev",
 
   // macOS Docker bind mounts don't emit inotify events — polling is required
   "remoteEnv": {

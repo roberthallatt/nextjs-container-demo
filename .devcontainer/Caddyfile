@@ -1,6 +1,0 @@
-# Listen on port 80 and proxy all traffic to the Next.js app.
-# Using :80 (not a hostname) means both http://nextjs-demo.test
-# and http://localhost respond — no HTTPS, no certificate prompts.
-:80 {
-    reverse_proxy app:3000
-}
