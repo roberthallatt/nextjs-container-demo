@@ -9,16 +9,17 @@ services:
     working_dir: /workspace
     # Keep the container alive; VS Code and postStartCommand manage the actual processes
     command: sleep infinity
-    ports:
-      - "3000:3000"
+    # Port 3000 is forwarded by VS Code (forwardPorts in devcontainer.json) rather
+    # than bound here — avoids conflict with OrbStack which owns host port 3000.
     networks:
       - dev
 
-  # Caddy reverse proxy — listens on port 80 and forwards to the app on port 3000
+  # Caddy reverse proxy — listens on port 80 inside the container, bound to host
+  # port 8080 to avoid conflict with OrbStack which owns host port 80.
   caddy:
     image: caddy:2-alpine
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     depends_on:

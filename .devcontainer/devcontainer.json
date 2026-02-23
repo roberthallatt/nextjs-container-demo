@@ -5,6 +5,7 @@
   // a Caddy reverse proxy alongside the Next.js app.
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
+  "runServices": ["app", "caddy"],
   "workspaceFolder": "/workspace",
 
   // Runs on the HOST Mac before the container builds.
@@ -18,9 +19,9 @@
   // Start the dev server when the container starts
   "postStartCommand": "npm run dev",
 
-  // Forward port 3000 for direct access alongside the Caddy proxy on port 80.
-  // Port 80 is published directly by the Caddy container via docker-compose.yml
-  // so VS Code doesn't need to manage it.
+  // Port 3000 is forwarded by VS Code (not bound in docker-compose) to avoid
+  // conflict with OrbStack. Port 8080 is bound by the Caddy container directly
+  // so VS Code doesn't need to forward it — just open the browser on it.
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
