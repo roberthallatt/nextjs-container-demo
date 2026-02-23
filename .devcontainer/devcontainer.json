@@ -11,14 +11,23 @@
     }
   },
 
-  "postCreateCommand": "npm install",
+  // Install project dependencies and Claude Code CLI
+  "postCreateCommand": "npm install && npm install -g @anthropic-ai/claude-code",
 
   "postStartCommand": "printf '\\n  Next.js dev server starting...\\n  Local: http://localhost:3000\\n\\n' && npm run dev",
 
-  // macOS Docker bind mounts don't emit inotify events — polling is required
+  // macOS Docker bind mounts don't emit inotify events — polling is required.
+  // ANTHROPIC_API_KEY is read from your Mac's shell environment (~/.zshrc).
   "remoteEnv": {
-    "WATCHPACK_POLLING": "true"
+    "WATCHPACK_POLLING": "true",
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
   },
+
+  // Persist Claude Code conversations and memory across container rebuilds.
+  // The named volume lives outside the container and survives rebuilds.
+  "mounts": [
+    "source=nextjs-container-claude,target=/home/node/.claude,type=volume"
+  ],
 
   "customizations": {
     "vscode": {
