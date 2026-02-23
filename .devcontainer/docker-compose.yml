@@ -1,3 +1,7 @@
+# Setting an explicit project name makes the OrbStack domain predictable:
+# caddy.test-nextjs.orb.local → Caddy → app:3000 → Next.js
+name: test-nextjs
+
 services:
 
   # Main development container — VS Code attaches here
@@ -14,12 +18,13 @@ services:
     networks:
       - dev
 
-  # Caddy reverse proxy — listens on port 80 inside the container, bound to host
-  # port 8080 to avoid conflict with OrbStack which owns host port 80.
+  # Caddy reverse proxy — listens on port 80 inside the container.
+  # No host port binding: OrbStack routes to it automatically via
+  # http://caddy.test-nextjs.orb.local
   caddy:
     image: caddy:2-alpine
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     depends_on:

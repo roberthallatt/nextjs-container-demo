@@ -8,10 +8,8 @@
   "runServices": ["app", "caddy"],
   "workspaceFolder": "/workspace",
 
-  // Runs on the HOST Mac before the container builds.
-  // Adds a /etc/hosts entry so http://nextjs-demo.test resolves to 127.0.0.1.
-  // The grep check makes this idempotent — only prompts for sudo once.
-  "initializeCommand": "grep -q 'nextjs-demo.test' /etc/hosts || echo '127.0.0.1  nextjs-demo.test' | sudo tee -a /etc/hosts > /dev/null",
+  // OrbStack automatically assigns http://caddy.test-nextjs.orb.local to the
+  // Caddy container — no /etc/hosts edit or initializeCommand needed.
 
   // Install dependencies after the container is created
   "postCreateCommand": "npm install",
